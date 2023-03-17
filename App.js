@@ -29,7 +29,7 @@ export default function App() {
                             tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
                         }}
                     />
-                    <BottomTabs.Screen
+                <BottomTabs.Screen
                         name="NumberPlateScanner"
                         component={NumberPlateScanner}
                         options={{
