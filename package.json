@@ -20,16 +20,23 @@
     "expo-barcode-scanner": "~12.1.0",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
-    "react-native": "0.70.5",
-    "typescript": "^4.6.3"
+    "react-native": "0.70.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@types/react": "^18.0.28",
     "@types/react-native": "^0.71.3",
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "eslint": "^8.36.0",
+    "eslint-config-standard-with-typescript": "^34.0.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
-    "prettier": "2.8.4"
+    "prettier": "2.8.4",
+    "typescript": "^5.0.2"
   },
   "private": true,
   "lint-staged": {
