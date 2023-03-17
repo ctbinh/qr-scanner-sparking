@@ -4,7 +4,7 @@ import React from 'react';
 const NumberPlateScanner = () => {
     return (
         <View style={styles.container}>
-            <Text>NumberPlateScanner</Text>
+        <Text>NumberPlateScanner</Text>
         </View>
     );
 };
