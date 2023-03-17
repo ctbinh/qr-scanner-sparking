@@ -12,7 +12,7 @@ const BottomTabs = createBottomTabNavigator();
 export default function App() {
     return (
         <View style={styles.container}>
-    <NavigationContainer style={styles.container}>
+            <NavigationContainer style={styles.container}>
                 <BottomTabs.Navigator
                     screenOptions={{
                         tabBarActiveTintColor: '#000',
@@ -30,7 +30,7 @@ export default function App() {
                             tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
                         }}
                     />
-            <BottomTabs.Screen
+                    <BottomTabs.Screen
                         name="NumberPlateScanner"
                         component={NumberPlateScanner}
                         options={{

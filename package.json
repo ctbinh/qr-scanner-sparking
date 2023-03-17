@@ -43,8 +43,8 @@
   "private": true,
   "lint-staged": {
     "**/*.{tsx,js,jsx,ts}": [
-      "eslint --fix"
-    ],
-    "*.--write": "prettier --write"
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
