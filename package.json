@@ -41,8 +41,7 @@
   "private": true,
   "lint-staged": {
     "src/**/*.tsx": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   }
 }
