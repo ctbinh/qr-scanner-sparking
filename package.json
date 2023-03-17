@@ -40,11 +40,5 @@
     "prettier": "2.8.4",
     "typescript": "^5.0.2"
   },
-  "private": true,
-  "lint-staged": {
-    "**/*.{tsx,js,jsx,ts}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  }
+  "private": true
 }
