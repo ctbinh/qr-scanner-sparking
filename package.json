@@ -45,7 +45,6 @@
     "src/**/*.tsx": [
       "eslint --fix"
     ],
-    "*.js": "eslint --cache --fix",
     "*.--write": "prettier --write"
   }
 }
