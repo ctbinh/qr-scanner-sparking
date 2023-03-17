@@ -12,7 +12,7 @@ const BottomTabs = createBottomTabNavigator();
 export default function App() {
     return (
         <View style={styles.container}>
-        <NavigationContainer style={styles.container}>
+    <NavigationContainer style={styles.container}>
                 <BottomTabs.Navigator
                     screenOptions={{
                         tabBarActiveTintColor: '#000',
