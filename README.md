@@ -1,1 +1,2 @@
 # qr-scanner-sparking
+test
