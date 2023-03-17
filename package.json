@@ -40,6 +40,9 @@
   },
   "private": true,
   "lint-staged": {
-    "*.--write": "prettier --write"
+    "src/**/*.tsx": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
