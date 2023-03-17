@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NumberPlateScanner from './src/screens/NumberPlateScanner/NumberPlateScanner';
 import QrScanner from './src/screens/QrScanner/QrScanner';
+import FlashMessage from 'react-native-flash-message';
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -41,6 +42,7 @@ export default function App() {
                 </BottomTabs.Navigator>
             </NavigationContainer>
             <StatusBar style="auto" />
+            <FlashMessage position="center" />
         </View>
     );
 }
