@@ -1,5 +1,6 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -11,7 +12,7 @@ const BottomTabs = createBottomTabNavigator();
 export default function App() {
     return (
         <View style={styles.container}>
-            <NavigationContainer style={styles.container}>
+        <NavigationContainer style={styles.container}>
                 <BottomTabs.Navigator
                     screenOptions={{
                         tabBarActiveTintColor: '#000',
