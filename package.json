@@ -42,7 +42,7 @@
   },
   "private": true,
   "lint-staged": {
-    "**/*.{tsx,js}": [
+    "**/*.{tsx,js,jsx,ts}": [
       "eslint --fix"
     ],
     "*.--write": "prettier --write"
