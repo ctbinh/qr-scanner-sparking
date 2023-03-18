@@ -19,7 +19,6 @@ const QrScanner = () => {
     const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
         setScanned(true);
         setLoading(true);
-        // displayMessage({ message: 'Success, next please!', type: 'success', icon: 'success' });
         setTimeout(() => {
             setLoading(false);
         }, 3000);
