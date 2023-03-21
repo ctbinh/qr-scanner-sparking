@@ -7,10 +7,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NumberPlateScanner from './src/screens/NumberPlateScanner/NumberPlateScanner';
 import QrScanner from './src/screens/QrScanner/QrScanner';
 import FlashMessage from 'react-native-flash-message';
+import { connectSocket } from './src/utils/sockjs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { TextEncoder } from 'text-encoding';
 
 const BottomTabs = createBottomTabNavigator();
 
 export default function App() {
+    connectSocket();
     return (
         <View style={styles.container}>
             <NavigationContainer style={styles.container}>

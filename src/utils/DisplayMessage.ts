@@ -1,12 +1,6 @@
-import { showMessage } from 'react-native-flash-message';
+import { MessageOptions, showMessage } from 'react-native-flash-message';
 
-interface MessageProps {
-    message: string;
-    type: any;
-    icon?: any;
-}
-
-export const displayMessage = (params: MessageProps) => {
+export const displayMessage = (params: MessageOptions) => {
     const { message, type, icon } = params;
     showMessage({
         message: message,

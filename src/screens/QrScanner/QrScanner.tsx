@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { displayMessage } from '../../utils/DisplayMessage';
+import { sendMessage } from '../../utils/sockjs';
 
 const QrScanner = () => {
     const [hasPermission, setHasPermission] = useState(false);
@@ -22,6 +23,7 @@ const QrScanner = () => {
         setTimeout(() => {
             setLoading(false);
         }, 3000);
+        sendMessage(data);
         displayMessage({ message: `${type}, ${data}`, type: 'success', icon: 'success' });
         setTimeout(() => {
             setScanned(false);
