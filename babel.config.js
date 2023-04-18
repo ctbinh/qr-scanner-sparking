@@ -1,15 +1,22 @@
-export default function (api) {
+// eslint-disable-next-line no-undef
+module.exports = function (api) {
     api.cache(true);
     return {
         presets: ['babel-preset-expo'],
         plugins: [
             [
-                'react-native-reanimated/plugin',
+                'module:react-native-dotenv',
                 {
-                    relativeSourceLocation: true,
-                    globals: ['__scanOCR'],
+                    envName: 'APP_ENV',
+                    moduleName: '@env',
+                    path: '.env',
+                    blocklist: null,
+                    allowlist: null,
+                    safe: false,
+                    allowUndefined: true,
+                    verbose: false,
                 },
             ],
         ],
     };
-}
+};
