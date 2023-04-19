@@ -1,5 +1,5 @@
-import { SOCKET_URL } from '@env';
 import { Client } from '@stomp/stompjs';
+import { SOCKET_URL } from '@env';
 import { IDataSocket } from '../interfaces/socket';
 
 class Stompjs {
@@ -40,7 +40,6 @@ class Stompjs {
 
     publishQrMessage(qrToken: string) {
         if (!this.stompClient.connected) {
-            alert("Broker disconnected, can't send message.");
             return false;
         }
         if (qrToken.length > 0) {
@@ -58,7 +57,6 @@ class Stompjs {
     publishLicensePlateMessage(data: IDataSocket) {
         // trying to publish a message when the broker is not connected will throw an exception
         if (!this.stompClient.connected) {
-            alert("Broker disconnected, can't send message.");
             return false;
         }
 

@@ -1,12 +1,13 @@
-import { BACKEND_URL } from '@env';
 import Axios from 'axios';
+import axiosRetry from 'axios-retry';
+import { BACKEND_URL } from '@env';
 
 interface BodyData {
     method: string;
     params?: object;
 }
 
-interface Response {
+export interface IResponse {
     returnCode: number;
     returnMessage: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +23,8 @@ const axios = Axios.create({
     },
 });
 
+axiosRetry(axios, { retries: 3 });
+
 axios.interceptors.request.use(
     function (config) {
         if (config.headers) {
@@ -36,7 +39,7 @@ axios.interceptors.request.use(
     },
 );
 
-export const postData = async (endpoint: string, data: BodyData): Promise<Response> => {
+export const postData = async (endpoint: string, data: BodyData): Promise<IResponse> => {
     try {
         const response = await axios.post(`/${endpoint}`, data, {
             headers: {

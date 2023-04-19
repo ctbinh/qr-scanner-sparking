@@ -1,19 +1,27 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { displayMessage } from '../../utils/DisplayMessage';
 import { IDataSocket } from '../../interfaces/socket';
 import Stompjs from '../../utils/Stompjs';
 import { getLocalItem } from '../../utils/LocalStorage';
+import Notification from '../../components/Notification';
+import {
+    MAX_TIME_DISPLAY,
+    NotifMessage,
+    NotifType,
+    TIME_DISPLAY_ERROR,
+    TIME_DISPLAY_SUCCESS,
+} from '../../constant/notification';
 
 const QrScanner = () => {
     const [hasPermission, setHasPermission] = useState(false);
-    const [scanned, setScanned] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState(NotifMessage.ERROR);
+    const [notifType, setNotifType] = useState(NotifType.ERROR);
+    const [showNotif, setShowNotif] = useState(false);
     const [stompClient, setStompClient] = useState(null);
 
     useEffect(() => {
-        const getBarCodeScannerPermissions = async () => {
+        const InitScreen = async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
             const data = await getLocalItem('tab');
@@ -21,10 +29,11 @@ const QrScanner = () => {
                 return;
             }
         };
-        getBarCodeScannerPermissions();
+        InitScreen();
         const client = new Stompjs('room/mock', (data: IDataSocket) => {
             if (data.status === 'fail1') {
                 // Popup rescan QR
+                showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
             }
             if (data.status === 'fail2') {
                 // popup fail message
@@ -32,6 +41,7 @@ const QrScanner = () => {
             }
             if (data.status === 'success') {
                 // popup success status
+                showNotification(NotifType.SUCCESS, NotifMessage.SUCCESS, TIME_DISPLAY_SUCCESS);
             }
         });
         setTimeout(() => {
@@ -42,17 +52,22 @@ const QrScanner = () => {
         };
     }, []);
 
-    const handleBarCodeScanned = ({ type, data }: { type: string; data: string }) => {
-        setScanned(true);
-        setLoading(true);
+    const handleBarCodeScanned = ({ data }: { type: string; data: string }) => {
+        const isSuccess = stompClient.publishQrMessage(data);
+        if (isSuccess) {
+            showNotification(NotifType.LOADING, NotifMessage.LOADING);
+        } else {
+            showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
+        }
+    };
+
+    const showNotification = (type: NotifType, message: NotifMessage, time?: number) => {
+        setShowNotif(true);
+        setNotifType(type);
+        setMessage(message);
         setTimeout(() => {
-            setLoading(false);
-        }, 3000);
-        stompClient.publishQrMessage(data);
-        displayMessage({ message: `${type}, ${data}`, type: 'success', icon: 'success' });
-        setTimeout(() => {
-            setScanned(false);
-        }, 3000);
+            setShowNotif(false);
+        }, (time ?? MAX_TIME_DISPLAY) * 1000);
     };
 
     if (hasPermission === null) {
@@ -64,10 +79,10 @@ const QrScanner = () => {
     return (
         <View style={styles.container}>
             <BarCodeScanner
-                onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                onBarCodeScanned={showNotif ? undefined : handleBarCodeScanned}
                 style={StyleSheet.absoluteFillObject}
             />
-            {loading && <ActivityIndicator size="large" style={styles.loading} />}
+            {showNotif && <Notification type={notifType} message={message} />}
         </View>
     );
 };

@@ -1,7 +1,7 @@
 import { Camera } from 'expo-camera';
 import { View, Text, Button, useWindowDimensions } from 'react-native';
 import * as FileSystem from 'expo-file-system';
-import { postData } from '../../services/api';
+import { IResponse, postData } from '../../services/api';
 import Stompjs from '../../utils/Stompjs';
 import { IDataSocket } from '../../interfaces/socket';
 import React, { useEffect, useRef, useState } from 'react';
@@ -13,17 +13,19 @@ export default function NumberPlateScanner() {
     const { width } = useWindowDimensions();
     const height = Math.round((width * 16) / 9);
 
-    const takePhotoAndGetLicensePlate = async () => {
-        const photo = await camera.current.takePictureAsync({ quality: 0.3 });
-        const imageBase64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
-        console.log(imageBase64.length);
-        const response = await postData('lpc/license-plate-convert', {
-            method: 'plate-regconizer',
-            params: {
-                image: imageBase64,
-            },
-        });
-        console.log(response);
+    const takePhotoAndGetLicensePlate = async (): Promise<string | null> => {
+        let response: IResponse;
+        for (let i = 0; i < 3; i++) {
+            const photo = await camera.current.takePictureAsync({ quality: 0.3 });
+            const imageBase64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
+            response = await postData('lpc/license-plate-convert', {
+                method: 'plate-regconizer',
+                params: {
+                    image: imageBase64,
+                },
+            });
+            if (response.returnCode > 0) break;
+        }
         if (response.returnCode > 0) {
             return response.data['license-plate'];
         } else {
@@ -32,7 +34,7 @@ export default function NumberPlateScanner() {
     };
 
     useEffect(() => {
-        const getBarCodeScannerPermissions = async () => {
+        const InitScreen = async () => {
             const { status } = await Camera.requestCameraPermissionsAsync();
             setHasPermission(status === 'granted');
             const data = await getLocalItem('tab');
@@ -40,10 +42,11 @@ export default function NumberPlateScanner() {
                 return;
             }
         };
-        getBarCodeScannerPermissions();
+        InitScreen();
         const client = new Stompjs('room/mock', async (data: IDataSocket) => {
             if (data.status === 'need-license-plate') {
-                takePhotoAndGetLicensePlate();
+                const license = await takePhotoAndGetLicensePlate();
+                console.log(license);
                 client.publishLicensePlateMessage(data);
             }
             console.log('number plate scanner');
