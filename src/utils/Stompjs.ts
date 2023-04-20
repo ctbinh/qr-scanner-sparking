@@ -8,14 +8,13 @@ class Stompjs {
     constructor(destination: string, callback: (data: IDataSocket) => void) {
         const stompClient = new Client({
             brokerURL: `${SOCKET_URL}/mrc/scanner`,
-            debug: function (str) {
-                console.log('STOMP: ' + str);
-            },
+            // debug: function (str) {
+            //     console.log('STOMP: ' + str);
+            // },
             reconnectDelay: 500,
             onConnect: function () {
                 console.log('connected');
                 stompClient.subscribe('/room/mock', async function (message) {
-                    console.log(JSON.parse(message.body));
                     const data: IDataSocket = JSON.parse(message.body);
                     callback(data);
                 });
@@ -64,6 +63,46 @@ class Stompjs {
 
         const payLoad = {
             status: 'submit',
+            qrToken: data.qrToken,
+            licensePlate: data.licensePlate,
+        };
+
+        // You can additionally pass headers
+        this.stompClient.publish({ destination: '/mrc/message/license-plate', body: JSON.stringify(payLoad) });
+
+        return true;
+    }
+
+    publishLicensePlateMessageError(data: IDataSocket) {
+        // trying to publish a message when the broker is not connected will throw an exception
+        if (!this.stompClient.connected) {
+            return false;
+        }
+
+        // scan to get license-plate then input below
+
+        const payLoad = {
+            status: 'license-error',
+            qrToken: data.qrToken,
+            licensePlate: data.licensePlate,
+        };
+
+        // You can additionally pass headers
+        this.stompClient.publish({ destination: '/mrc/message/license-plate', body: JSON.stringify(payLoad) });
+
+        return true;
+    }
+
+    publishLicensePlateMessageErrorQr(data: IDataSocket) {
+        // trying to publish a message when the broker is not connected will throw an exception
+        if (!this.stompClient.connected) {
+            return false;
+        }
+
+        // scan to get license-plate then input below
+
+        const payLoad = {
+            status: 'qr-error',
             qrToken: data.qrToken,
             licensePlate: data.licensePlate,
         };

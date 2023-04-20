@@ -30,18 +30,32 @@ const QrScanner = () => {
             }
         };
         InitScreen();
-        const client = new Stompjs('room/mock', (data: IDataSocket) => {
-            if (data.status === 'fail1') {
+        const client = new Stompjs('room/mock', async (data: IDataSocket) => {
+            const tab = await getLocalItem('tab');
+            if (tab !== 'QrScanner') return;
+            if (data.status === 'qr-failed') {
                 // Popup rescan QR
                 showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
+                console.log('=============QrScanner============');
+                console.log(data);
+                console.log('>>>Hiện popup thông báo lỗi, cho quét lại');
             }
-            if (data.status === 'fail2') {
+            if (data.status === 'license-failed') {
                 // popup fail message
+                showNotification(NotifType.FIX, NotifMessage.FIX);
                 client.publishQrMessage(data.qrToken);
+                console.log('=============QrScanner============');
+                console.log(
+                    '>>>Hiện popup yêu cầu điều chỉnh vị trí xe (cho đến khi xử lý xong, nhưng chỉ chờ tối đa 90s)',
+                );
+                console.log(data);
             }
             if (data.status === 'success') {
                 // popup success status
                 showNotification(NotifType.SUCCESS, NotifMessage.SUCCESS, TIME_DISPLAY_SUCCESS);
+                console.log('=============QrScanner============');
+                console.log(data);
+                console.log('>>>Hiện popup thành công (3 giây)');
             }
         });
         setTimeout(() => {
@@ -56,6 +70,8 @@ const QrScanner = () => {
         const isSuccess = stompClient.publishQrMessage(data);
         if (isSuccess) {
             showNotification(NotifType.LOADING, NotifMessage.LOADING);
+            console.log('=============QrScanner============');
+            console.log('>>>Hiện popup loading (cho đến khi xử lý xong, nhưng chỉ chờ tối đa 90s)');
         } else {
             showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
         }

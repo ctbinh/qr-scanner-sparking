@@ -44,12 +44,20 @@ export default function NumberPlateScanner() {
         };
         InitScreen();
         const client = new Stompjs('room/mock', async (data: IDataSocket) => {
+            const tab = await getLocalItem('tab');
+            if (tab !== 'NumberPlateScanner') return;
             if (data.status === 'need-license-plate') {
+                console.log('========NumberPlateScanner=======');
+                console.log('>>>Thử 3 lần để lấy biển');
+                console.log(data);
                 const license = await takePhotoAndGetLicensePlate();
-                console.log(license);
-                client.publishLicensePlateMessage(data);
+                data.licensePlate = license;
+                if (!license) {
+                    client.publishLicensePlateMessageError(data);
+                } else {
+                    client.publishLicensePlateMessage(data);
+                }
             }
-            console.log('number plate scanner');
         });
         return () => {
             client.disconectSocket();
