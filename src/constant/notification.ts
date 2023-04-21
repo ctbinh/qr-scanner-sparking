@@ -4,14 +4,18 @@ export const TIME_DISPLAY_ERROR = 3;
 
 export enum NotifType {
     LOADING,
-    ERROR,
+    FAILED,
     SUCCESS,
-    FIX,
+    RETRY,
+    LICENSE_FAILED,
+    QR_FAILED,
 }
 
 export enum NotifMessage {
     LOADING = 'Vui lòng chờ trong giây lát',
-    ERROR = 'Có lỗi xảy ra, vui lòng quét lại',
+    FAILED = 'Có lỗi xảy ra, vui lòng quét lại',
     SUCCESS = 'Thành công',
-    FIX = 'Vui lòng di chuyển xe của bạn đến đúng vị trí để máy có thể lấy được biển',
+    RETRY = 'D1t m3 m4y ngu vua thoi, đưa xe vô vị trí',
+    LICENSE_FAILED = 'Djt m3 may cướp xe à',
+    QR_FAILED = 'Đéo biết lỗi gì, quét lại',
 }

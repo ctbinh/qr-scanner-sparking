@@ -30,10 +30,12 @@ const Notification = ({ type, message }: { type: NotifType; message: NotifMessag
                 <Animated.View style={[{ opacity }, styles.icon]}>
                     {type === NotifType.LOADING ? (
                         <ActivityIndicator size="large" />
-                    ) : type === NotifType.ERROR ? (
-                        <MaterialIcons name="error" size={35} color="orange" />
-                    ) : type === NotifType.FIX ? (
-                        <MaterialIcons name="wrong-location" size={35} color="red" />
+                    ) : type === NotifType.FAILED ? (
+                        <MaterialIcons name="error" size={35} color="red" />
+                    ) : type === NotifType.RETRY ? (
+                        <MaterialIcons name="wrong-location" size={35} color="orange" />
+                    ) : type === NotifType.LICENSE_FAILED ? (
+                        <MaterialIcons name="error" size={35} color="red" />
                     ) : (
                         <AntDesign name="checkcircle" size={35} color="green" />
                     )}

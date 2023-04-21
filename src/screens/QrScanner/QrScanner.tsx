@@ -15,8 +15,8 @@ import {
 
 const QrScanner = () => {
     const [hasPermission, setHasPermission] = useState(false);
-    const [message, setMessage] = useState(NotifMessage.ERROR);
-    const [notifType, setNotifType] = useState(NotifType.ERROR);
+    const [message, setMessage] = useState(NotifMessage.FAILED);
+    const [notifType, setNotifType] = useState(NotifType.FAILED);
     const [showNotif, setShowNotif] = useState(false);
     const [stompClient, setStompClient] = useState(null);
 
@@ -33,16 +33,32 @@ const QrScanner = () => {
         const client = new Stompjs('room/mock', async (data: IDataSocket) => {
             const tab = await getLocalItem('tab');
             if (tab !== 'QrScanner') return;
-            if (data.status === 'qr-failed') {
+            if (data.status === 'failed') {
                 // Popup rescan QR
-                showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
+                showNotification(NotifType.FAILED, NotifMessage.FAILED, TIME_DISPLAY_ERROR);
                 console.log('=============QrScanner============');
                 console.log(data);
                 console.log('>>>Hiện popup thông báo lỗi, cho quét lại');
             }
             if (data.status === 'license-failed') {
                 // popup fail message
-                showNotification(NotifType.FIX, NotifMessage.FIX);
+                showNotification(NotifType.LICENSE_FAILED, NotifMessage.LICENSE_FAILED, TIME_DISPLAY_ERROR);
+                client.publishQrMessage(data.qrToken);
+                console.log('=============QrScanner============');
+                console.log('>>>Hiện popup sai thông tin biển số');
+                console.log(data);
+            }
+            if (data.status === 'qr-failed') {
+                // popup fail message
+                showNotification(NotifType.QR_FAILED, NotifMessage.QR_FAILED, TIME_DISPLAY_ERROR);
+                client.publishQrMessage(data.qrToken);
+                console.log('=============QrScanner============');
+                console.log('>>>Hiện popup đ biết lỗi gì, yêu cầu quét lại');
+                console.log(data);
+            }
+            if (data.status === 'license-retry') {
+                // popup fail message
+                showNotification(NotifType.RETRY, NotifMessage.RETRY);
                 client.publishQrMessage(data.qrToken);
                 console.log('=============QrScanner============');
                 console.log(
@@ -73,7 +89,7 @@ const QrScanner = () => {
             console.log('=============QrScanner============');
             console.log('>>>Hiện popup loading (cho đến khi xử lý xong, nhưng chỉ chờ tối đa 90s)');
         } else {
-            showNotification(NotifType.ERROR, NotifMessage.ERROR, TIME_DISPLAY_ERROR);
+            showNotification(NotifType.FAILED, NotifMessage.FAILED, TIME_DISPLAY_ERROR);
         }
     };
 
