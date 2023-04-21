@@ -52,11 +52,6 @@ export default function NumberPlateScanner() {
                 console.log(data);
                 const license = await takePhotoAndGetLicensePlate();
                 data.licensePlate = license;
-                // if (!license) {
-                //     client.publishLicensePlateMessageError(data);
-                // } else {
-                //     client.publishLicensePlateMessage(data);
-                // }
                 client.publishLicensePlateMessage(data);
             }
         });
