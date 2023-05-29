@@ -10,6 +10,7 @@ import FlashMessage from 'react-native-flash-message';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TextEncoder } from 'text-encoding';
 import { getLocalItem, setLocalItem } from './src/utils/LocalStorage';
+import Settings from './src/screens/Settings';
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -22,13 +23,6 @@ export default function App() {
         };
         getTab();
     }, []);
-    const changeTab = () => {
-        if (tab === 'QrScanner') {
-            setLocalItem('tab', 'NumberPlateScanner');
-        } else {
-            setLocalItem('tab', 'QrScanner');
-        }
-    };
 
     if (tab === 'QrScanner') {
         return (
@@ -58,9 +52,16 @@ export default function App() {
                                 tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} />,
                             }}
                         />
+                        <BottomTabs.Screen
+                            name="Settings"
+                            component={Settings}
+                            options={{
+                                title: 'Cài đặt',
+                                tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
+                            }}
+                        />
                     </BottomTabs.Navigator>
                 </NavigationContainer>
-                <Button title="change" onPress={() => changeTab()} />
                 <StatusBar style="auto" />
                 <FlashMessage position="center" />
             </View>
@@ -95,9 +96,16 @@ export default function App() {
                                 ),
                             }}
                         />
+                        <BottomTabs.Screen
+                            name="Settings"
+                            component={Settings}
+                            options={{
+                                title: 'Cài đặt',
+                                tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />,
+                            }}
+                        />
                     </BottomTabs.Navigator>
                 </NavigationContainer>
-                <Button title="change" onPress={() => changeTab()} />
                 <StatusBar style="auto" />
                 <FlashMessage position="center" />
             </View>

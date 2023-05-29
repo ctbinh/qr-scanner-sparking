@@ -1,5 +1,5 @@
 import { Camera } from 'expo-camera';
-import { View, Text, Button, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { IResponse, postData } from '../../services/api';
 import Stompjs from '../../utils/Stompjs';
