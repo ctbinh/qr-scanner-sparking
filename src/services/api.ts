@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import axiosRetry from 'axios-retry';
 import { BACKEND_URL } from '@env';
+import axiosRetry from 'axios-retry';
 
 interface BodyData {
     method: string;
@@ -15,7 +15,7 @@ export interface IResponse {
 }
 
 const axios = Axios.create({
-    baseURL: BACKEND_URL,
+    baseURL: 'https://sparking.ngrok.app',
     headers: {
         Accept: 'application/json,application/x-www-form-urlencoded,text/plain,*/*',
         'Content-Type': 'application/json',

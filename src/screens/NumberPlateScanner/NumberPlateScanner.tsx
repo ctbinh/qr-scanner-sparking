@@ -16,7 +16,7 @@ export default function NumberPlateScanner() {
     const takePhotoAndGetLicensePlate = async (): Promise<string | null> => {
         let response: IResponse;
         for (let i = 0; i < 3; i++) {
-            const photo = await camera.current.takePictureAsync({ quality: 0.3 });
+            const photo = await camera.current.takePictureAsync({ quality: 0.2 });
             const imageBase64 = await FileSystem.readAsStringAsync(photo.uri, { encoding: 'base64' });
             response = await postData('lpc/license-plate-convert', {
                 method: 'plate-regconizer',
@@ -44,6 +44,7 @@ export default function NumberPlateScanner() {
         };
         InitScreen();
         const client = new Stompjs('room/mock', async (data: IDataSocket) => {
+            console.log('client data:', data);
             const tab = await getLocalItem('tab');
             if (tab !== 'NumberPlateScanner') return;
             if (data.status === 'need-license-plate') {
@@ -69,7 +70,7 @@ export default function NumberPlateScanner() {
             }}
             ref={camera}
         >
-            <Button title="take" onPress={takePhotoAndGetLicensePlate} />
+            {/*<Button title="take" onPress={takePhotoAndGetLicensePlate} />*/}
         </Camera>
     ) : (
         <View>

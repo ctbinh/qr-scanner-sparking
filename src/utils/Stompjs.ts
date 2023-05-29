@@ -7,7 +7,7 @@ class Stompjs {
 
     constructor(destination: string, callback: (data: IDataSocket) => void) {
         const stompClient = new Client({
-            brokerURL: `${SOCKET_URL}/mrc/scanner`,
+            brokerURL: `wss://sparking.ngrok.app/mrc/scanner`,
             // debug: function (str) {
             //     console.log('STOMP: ' + str);
             // },

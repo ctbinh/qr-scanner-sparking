@@ -31,6 +31,7 @@ const QrScanner = () => {
         };
         InitScreen();
         const client = new Stompjs('room/mock', async (data: IDataSocket) => {
+            console.log('client data qr: ', data);
             const tab = await getLocalItem('tab');
             if (tab !== 'QrScanner') return;
             if (data.status === 'failed') {
