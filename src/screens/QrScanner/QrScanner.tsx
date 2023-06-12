@@ -100,6 +100,9 @@ const QrScanner = () => {
         setMessage(message);
         setTimeout(() => {
             setShowNotif(false);
+            if (type == NotifType.LICENSE_FAILED) {
+                showNotification(NotifType.LOADING, NotifMessage.LOADING);
+            }
         }, (time ?? MAX_TIME_DISPLAY) * 1000);
     };
 

@@ -1,4 +1,4 @@
-export const MAX_TIME_DISPLAY = 20;
+export const MAX_TIME_DISPLAY = 90;
 export const TIME_DISPLAY_SUCCESS = 3;
 export const TIME_DISPLAY_ERROR = 3;
 
