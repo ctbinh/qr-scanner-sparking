@@ -88,7 +88,7 @@ const QrScanner = () => {
         if (isSuccess) {
             showNotification(NotifType.LOADING, NotifMessage.LOADING);
             console.log('=============QrScanner============');
-            console.log('>>>Hiện popup loading (cho đến khi xử lý xong, nhưng chỉ chờ tối đa 90s)');
+            console.log('>>>Hiện popup loading (cho đến khi xử lý xong, nhưng chỉ chờ tối đa 20s)');
         } else {
             showNotification(NotifType.FAILED, NotifMessage.FAILED, TIME_DISPLAY_ERROR);
         }

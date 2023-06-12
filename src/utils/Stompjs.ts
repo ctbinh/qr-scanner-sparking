@@ -1,5 +1,5 @@
 import { Client } from '@stomp/stompjs';
-import { SOCKET_URL } from '@env';
+// import { SOCKET_URL } from '@env';
 import { IDataSocket } from '../interfaces/socket';
 
 class Stompjs {
